@@ -1,1 +1,0 @@
-Códigos referentes a atividade 1 de Sistemas Operacionais
