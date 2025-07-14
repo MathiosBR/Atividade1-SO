@@ -35,7 +35,7 @@ public class FuncoesBD {
 			try {
 				conexao.close();
 				System.out.println("Conexão com o BD fechada.");
-			}catch(Exception e) {
+			}catch(SQLException e) {
 				System.out.println("Erro ao fechar a conexão: " + e.getMessage());
 			}
 		}
@@ -43,18 +43,15 @@ public class FuncoesBD {
 	
 	//Método para criação de uma tabela
 	public void criarTabelaProdutos() {
-		Statement declaracao;
-		try {
+		try(Statement declaracao = conexao.createStatement()) {
 			String query = 
 					"DROP TABLE IF EXISTS public.produtos; "
-					+ "CREATE TABLE public.produtos " 
-					+ "(id SERIAL, "
-					+ "nome VARCHAR (45) NOT NULL, "
-					+ "preco DECIMAL(10,2) NOT NULL, "
-					+ "quantidade INT DEFAULT 0, "
-					+ "CONSTRAINT pk_ids PRIMARY KEY (id)"
-					+ ");";
-			declaracao = conexao.createStatement();
+		          + "CREATE TABLE public.produtos "
+		          + "(id SERIAL PRIMARY KEY, "
+		          + "nome VARCHAR(45) NOT NULL, "
+		          + "preco DECIMAL(10,2) NOT NULL, "
+		          + "quantidade INT DEFAULT 0"
+		          + ");";
 			declaracao.executeUpdate(query);
 			System.out.println("Tabela criada!");
 		}catch(SQLException e) {
